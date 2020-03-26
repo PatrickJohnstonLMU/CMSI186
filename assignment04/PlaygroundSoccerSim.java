@@ -128,12 +128,13 @@ public class PlaygroundSoccerSim {
         if (moveResult == false || collisionDetect == true) {
           if (moveResult == false){
             endProgram = true;
-            System.out.println("All balls have stopped moving, exiting program");
+            System.out.println("All balls have stopped moving because balls are either out of bounds or not in motion at a time of: " + clock.toString() +" |exiting program");
             System.exit(0);
           }
           if (collisionDetect = true)
             System.out.println("Collision detected with ball " + ballsCollided[0] + " and ball " + ballsCollided[1] + "at their positions of " + collisionb1Loc[0] + "," +collisionb1Loc[1] + "and " +collisionb2Loc[0] + "," +collisionb2Loc[1] + "| time: " + clock.toString());
             System.exit(0);
+
         }
   }
   /**
