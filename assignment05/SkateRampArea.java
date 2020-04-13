@@ -35,15 +35,10 @@ public void validateArgsAndSetupIntergration( String [] args){
 
   //checks if there are enough areguments to meet the minimum, throw an exception if not
     // if 0 args, throw error
-  try{
     if (args.length <= 1){
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("IllegalArgumentException: You have placed non-usable amount of arguments in the program with less than 0 arguments, please try again");
     }
-  }catch(IllegalArgumentException iae){
-    System.out.println("IllegalArgumentException: You have placed non-usable amount of arguments in the program with less than 0 arguments, please try again");
-    System.exit(0);
-    //catch exception
-  }
+ 
   function1 = args[0];
   function = function1.toLowerCase();
   System.out.println(function);
@@ -51,39 +46,27 @@ public void validateArgsAndSetupIntergration( String [] args){
   if(function.equals(functions[0]) || function.equals(functions[1])){
     if (function.equals(functions[0])){
         //if function is poly, there must be at least 5 args( func, at least 2 coefficaents of x, lb, ub)
-        try{
+        
           if(args.length <= 4){
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("IllegalArgumentException: Not enough arguments to enact a poly method: must have atleast 5 arguments: ( function, 2 coefficients, lower bound, upper bound, no % )");
           }
-        }catch(IllegalArgumentException iae){
-          System.out.println("IllegalArgumentException: Not enough arguments to enact a poly method: must have atleast 5 arguments");
-          System.exit(0);
-        }
 
     }
     if (function.equals(functions[1])){
         // if function is sin, there must be atleast 3 args( func, lb, ub)
-        try{
+        
           if(args.length <= 2){
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("IllegalArgumentException: Not enough arguments to enact a sin method: must have atleast 3 arguments: ( function, lower bound, upper bound, no % )");
           }
-        }catch(IllegalArgumentException iae){
-          System.out.println("IllegalArgumentException: Not enough arguments to enact a sin method: must have atleast 3 arguments");
-          System.exit(0);
-        }
+    
 
     }
    
   }
   else{
-    try{
-          System.out.println("Function " + function + " does not exist or is not compatible with program, please use either poly or sin");
-          throw new IllegalArgumentException();
-
-    }catch(IllegalArgumentException iae){
-      System.exit(0);
-    }
-
+    
+          
+          throw new IllegalArgumentException("Function " + function + " does not exist or is not compatible with program, please use either poly or sin");
   
   }
   
@@ -95,28 +78,29 @@ public void validateArgsAndSetupIntergration( String [] args){
     //sin - need 4 args
    // check to see if there is a % in the last argument
    // if so
-   try{
-    if(args.length < 6 && function.equals("poly")){
-      throw new IllegalArgumentException();
+
+if(args.length < 6 && function.equals("poly")){
+      throw new IllegalArgumentException("error ");
     }
-    if(args.length != 4 && function.equals("sin")){
-      throw new IllegalArgumentException();
+    else if(args.length != 4 && function.equals("sin")){
+      throw new IllegalArgumentException("error");
+    }
+    try {
+        epsilon = (Double.parseDouble( args[args.length - 1].substring( 0, args[args.length - 1].length() - 1 ) )) / 100.0;
+    } catch(NumberFormatException nfe) {
+       throw new IllegalArgumentException("You have inputted the wrong arguments in the wrong format or values. Please only use numbers for the bounds and coefficients");
     }
 
-    epsilon = (Double.parseDouble( args[args.length - 1].substring( 0, args[args.length - 1].length() - 1 ) )) / 100.0;
-    
-   } catch(IllegalArgumentException iae) {
-   System.out.println("You have inputted the wrong arguments in the wrong format or values. Please only use numbers for the bounds and coefficients");
-   System.exit(0);
-   }
+
+   
    try{
    // second to last arg is upper bound
     upperB = (Double.parseDouble(args[args.length - 2]));
     // third to last arg is lower bound
     lowerB = (Double.parseDouble(args[args.length - 3]));
   }catch( NumberFormatException nfe ){
-          System.out.println("Error changing the arguments to doubles, please enter the correct arguments in the proper next time, shutting down");
-          System.exit(0);
+          throw new IllegalArgumentException("Error changing the arguments to doubles, please enter the correct arguments in the proper next time, shutting down");
+         
         }
      if(function.equals("poly")){
       snubArray = Arrays.copyOfRange(args, 1, args.length - 3);
@@ -138,8 +122,7 @@ public void validateArgsAndSetupIntergration( String [] args){
   //second to last arg is lb
     lowerB = (Double.parseDouble(args[args.length - 2]));
   }catch( NumberFormatException nfe ){
-          System.out.println("Error changing the arguments to doubles, please enter the correct arguments in the proper next time, shutting down");
-          System.exit(0);
+          throw new IllegalArgumentException("Error changing the arguments to doubles, please enter the correct arguments in the proper next time, shutting down");
         }
     if(function.equals("poly")){
       snubArray = Arrays.copyOfRange(args, 1, args.length - 2);
@@ -149,12 +132,9 @@ public void validateArgsAndSetupIntergration( String [] args){
   // ub and lb should be parsed to doubles in a try catch
   //make sure that ub and lb are in numerical order or flip them  or throw an error
     if (upperB < lowerB){
-      try{
-        System.out.println("Upper bound is less than lower bound, exiting program and or epsilon must have a % at the end");
-        throw new IllegalArgumentException();
-      } catch(IllegalArgumentException iae) {
-        System.exit(0);
-         }
+    
+        throw new IllegalArgumentException("Upper bound is less than lower bound, exiting program and or epsilon must have a % at the end");
+       
 
 
 
@@ -176,34 +156,26 @@ try{
     }
 
 }catch( NumberFormatException nfe ){
-          System.out.println("Error changing the arguments to doubles, please enter the correct arguments in the proper next time, shutting down");
-          System.exit(0);
+          throw new IllegalArgumentException("Error changing the arguments to doubles, please enter the correct arguments in the proper next time, shutting down");
         }
-try{
-if(function.equals("poly")){
-if(coeffs.length > 3){
-  throw new NumberFormatException();
 
-}
-}
-
-}catch(NumberFormatException nfe){
-  System.out.println("you have inputed too many values for the polynomial, exiting program");
-  System.exit(0);
-}
 
 
 
 }
 public double curvefunc(double coefficients [], double midPoint){ 
-  double cof1 = coefficients[2];
-  double cof2 = coefficients[1];
-  double cof3 = coefficients[0];
-  System.out.println("cof1: " + cof1);
-  System.out.println("cof2: " + cof2);
-  System.out.println("cof3: " + cof3);
+ 
+double result = 0;
+for (int z = 0; z <= (coefficients.length-1);z++ ){
+    if (z == 0){
+      result = coefficients[z];
+    }else{
+      result = result + (coefficients[z] * Math.pow(midPoint, z));
+    }
+    }
+  
   // Change 2.5 to midPoint
-  double result = ((cof1 * Math.pow(midPoint, 2) + (cof2 * (midPoint)) + cof3));
+  //double result = ((cof1 * Math.pow(midPoint, 2) + (cof2 * (midPoint)) + cof3));
   return result;
 }
 public double midpointCalc(double lowB, double lngth, int numofRect) {
@@ -269,6 +241,8 @@ public void sin(double upperBound, double lowerBound, double optional,int rectNu
     String end = df.format(currentArea);
    
     System.out.println(end);
+    System.out.println("Number of rectangles: ");
+    System.out.println(rectNum);
     
   }
   else{
@@ -284,11 +258,14 @@ public void poly(double coefficient [], double upperBound, double lowerBound, do
   double previousArea = CalculateAreaPoly(coefficient, upperBound, lowerBound, rectNum - 1);
   double currentArea = CalculateAreaPoly(coefficient, upperBound, lowerBound, rectNum);
   double diffPercent = 1 - ( currentArea / previousArea );
+  System.out.println(diffPercent);
   if (diffPercent <= optional){
     System.out.println("The area");
     String end = df.format(currentArea);
   
     System.out.println(end);
+    System.out.println("Number of rectangles: ");
+    System.out.println(rectNum);
   }
   else{
     rectNum = rectNum + 1;
@@ -298,9 +275,527 @@ public void poly(double coefficient [], double upperBound, double lowerBound, do
 
   
 }
+public void runtests(){
+  //Testing for curve func and midpoint are called insidee of poly and sinc calculate functions, so they are being individually tested
+String argstest10[] = new String[] { "A", "B", "C", "D", "E" };
+String argstest9[] = new String[] { "poly", "j", "3", "1", "j" }; 
+String argstest8[] = new String[] { "Test"}; 
+String argstest7[] = new String[] { }; 
+String argstest6[] = new String[] { "sin", "j", "3"}; 
+String argstest5[] = new String[] { "sin", "5", "3"}; 
+String argstest4[] = new String[] { "sin", "2", "3"}; 
+String argstest3[] = new String[] { "poly", "2", "3", "j", "4" }; 
+String argstest2[] = new String[] { "cow", "2", "3", "1", "4" }; 
+String argstest1[] = new String[] { "poly", "2", "3", "1", "4" };
+String polytest2[] = new String[] { "poly", "2", "3", "1","1","4", "1%" };
+String polytest3[] = new String[] { "poly", "1", "3", "3","1","4", "1%" }; 
+String polytest4[] = new String[] { "poly", "2", "3", "3","1","4", "1%" }; 
+String polytest5[] = new String[] { "poly", "2","2","2","2","2","2", "3", "3","1","4", "1%" };
+String polytest6[] = new String[] { "poly", "-2","2", "3", "-2","1","4", "1%" }; 
+String polytest7[] = new String[] { "poly", "-2","2", "3", "-2","1","4" }; 
+String polytest8[] = new String[] { "poly", "-2","-2", "-3", "-2","1","4" }; 
+String polytest9[] = new String[] { "poly", "-2","2","-1","-4" }; 
+String polytest10[] = new String[] { "poly", "-2","2","-1","6","4" }; 
+String sintest1[] = new String[] { "sin", "1", "3"}; 
+String sintest2[] = new String[] { "sin", "1", "3", "%1"};
+String sintest3[] = new String[] { "sin", "1", "3", "%10"}; 
+String sintest4[] = new String[] { "sin", "-2", "3", "%1"}; 
+String sintest5[] = new String[] { "sin", "-2", "3"}; 
+String sintest6[] = new String[] { "sin", "-2", "9", "2%"};
+String sintest7[] = new String[] { "sin", "10", "20", "2%"}; 
+String sintest8[] = new String[] { "sin", "-2", "9", "70%"};
+String sintest9[] = new String[] { "sin", "2", "9", "20%"}; 
+String sintest10[] = new String[] { "sin", "-4", "9", "4%"}; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+System.out.println("test 1 for validate args- all arguments are run through validates args before it can be passed through methods- testing correct args, expect good");
+try { 
+
+  validateArgsAndSetupIntergration(argstest1);   
+   } catch (IllegalArgumentException iae) {
+      System.out.println(iae.getMessage());
+   }
+System.out.println("test 1 for validate args- good");
+System.out.println("==============================");
+System.out.println("test 2 for validate args - testing function as cow, expect error ");
+try { 
+
+  validateArgsAndSetupIntergration(argstest2);   
+   } catch (IllegalArgumentException iae) {
+      System.out.println(iae.getMessage());
+   }  
+System.out.println("test 2 for validate args, expect and error");
+System.out.println("==============================");
+System.out.println("test 3 for validate args - testing letter as bounds, expect error ");
+try { 
+
+  validateArgsAndSetupIntergration(argstest3);   
+   } catch (IllegalArgumentException iae) {
+      System.out.println(iae.getMessage());
+   }  
+System.out.println("test 3 for validate args, expect and error");
+System.out.println("==============================");
+System.out.println("test 4 for validate args - testing Sin, expect nothing as it is good ");
+try { 
+
+  validateArgsAndSetupIntergration(argstest4);   
+   } catch (IllegalArgumentException iae) {
+      System.out.println(iae.getMessage());
+   }  
+System.out.println("test 4 for validate args. good");
+System.out.println("==============================");
+System.out.println("test 5 for validate args - testing Sin, expect error as bounds are switched");
+try { 
+
+  validateArgsAndSetupIntergration(argstest5);   
+   } catch (IllegalArgumentException iae) {
+      System.out.println(iae.getMessage());
+   }  
+System.out.println("test 5 for validate args, error expected");
+System.out.println("==============================");
+System.out.println("test 6 for validate args - testing Sin, expect error as bounds are letters");
+try { 
+
+  validateArgsAndSetupIntergration(argstest6);   
+   } catch (IllegalArgumentException iae) {
+      System.out.println(iae.getMessage());
+   }  
+System.out.println("test 6 for validate args, error expected");
+System.out.println("==============================");
+System.out.println("test 7 for validate args - testing Sin, no args, error expected");
+try { 
+
+  validateArgsAndSetupIntergration(argstest7);   
+   } catch (IllegalArgumentException iae) {
+      System.out.println(iae.getMessage());
+   }  
+System.out.println("test 7 for validate args, error expected");
+System.out.println("==============================");
+
+System.out.println("test 8 for validate args - testing non function, no args, error expected");
+try { 
+
+  validateArgsAndSetupIntergration(argstest8);   
+   } catch (IllegalArgumentException iae) {
+      System.out.println(iae.getMessage());
+   }  
+System.out.println("test 8 for validate args, error expected");
+System.out.println("==============================");
+System.out.println("test 9 for validate args - testing poly, letters as coeffeicent and bound");
+try { 
+
+  validateArgsAndSetupIntergration(argstest9);   
+   } catch (IllegalArgumentException iae) {
+      System.out.println(iae.getMessage());
+   }  
+System.out.println("test 9 for validate args, error expected");
+System.out.println("==============================");
+System.out.println("test 10 for validate args - testing all letter args");
+try { 
+
+  validateArgsAndSetupIntergration(argstest9);   
+   } catch (IllegalArgumentException iae) {
+      System.out.println(iae.getMessage());
+   }  
+System.out.println("test 10 for validate args, error expected");
+System.out.println("====================================");
+
+System.out.println("test 1 for testing poly, curve func, and midpoint without 1%  correct");
+ try{
+        validateArgsAndSetupIntergration(argstest1);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 2 for testing poly, curve func, and midpoint with 1% - correct");
+  try{
+        validateArgsAndSetupIntergration(polytest2);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 3 for testing poly, curve func, and midpoint with 1% - correct");
+  try{
+        validateArgsAndSetupIntergration(polytest3);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 4 fortesting poly, curve func, and midpoint with 1%, changing numbers - correct");
+  try{
+        validateArgsAndSetupIntergration(polytest4);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 5 for testing poly, curve func, and midpoint with 1%, 10 coeffeicents - correct");
+  try{
+        validateArgsAndSetupIntergration(polytest5);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 6 for testing poly, curve func, and midpoint with 1%, many coeffeicents and negtaitv intergers - correct");
+  try{
+        validateArgsAndSetupIntergration(polytest6);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 6 for testing poly, curve func, and midpoint with 1%, many coeffeicents and negtaitv intergers - correct");
+  try{
+        validateArgsAndSetupIntergration(polytest6);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 7 for testing poly, curve func, and midpoint with no 1% and negtaitive intergers ");
+  try{
+        validateArgsAndSetupIntergration(polytest7);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 8 for testing poly, curve func, and midpoint with no 1% and negtaitive intergers, including bounds ");
+  try{
+        validateArgsAndSetupIntergration(polytest8);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 8 for testing poly, curve func, and midpoint with no 1% and negtaitive intergers, including bounds ");
+  try{
+        validateArgsAndSetupIntergration(polytest8);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 9 for testing poly, curve func, and midpoint with 5 args including bounds ");
+  try{
+        validateArgsAndSetupIntergration(polytest9);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println(nfe.getMessage());
+
+      }
+System.out.println("====================================");
+System.out.println("test 10 for testing poly, curve func, and midpoint with 7 args including bounds ");
+  try{
+        validateArgsAndSetupIntergration(polytest10);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 1 for testing sin, curve func, correct args ");
+  try{
+        validateArgsAndSetupIntergration(sintest1);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 2 for testing sin, curve func, correct args with % ");
+  try{
+        validateArgsAndSetupIntergration(sintest2);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 3 for testing sin, curve func, correct args with % 10");
+  try{
+        validateArgsAndSetupIntergration(sintest3);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 4 for testing sin, curve func,  with negative correct args with % 5");
+  try{
+        validateArgsAndSetupIntergration(sintest4);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 5 for testing sin, curve func,  with negative correct args with % 10");
+  try{
+        validateArgsAndSetupIntergration(sintest5);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 6 for testing sin, curve func,  with negative correct args with % 1");
+  try{
+        validateArgsAndSetupIntergration(sintest6);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+System.out.println("test 7 for testing sin, curve func,  with negative correct args with % 1");
+  try{
+        validateArgsAndSetupIntergration(sintest7);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+
+System.out.println("test 8 for testing sin, curve func,  with negative correct args with % 1");
+  try{
+        validateArgsAndSetupIntergration(sintest8);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+
+System.out.println("test 9 for testing sin, curve func,  with negative correct args with % 1");
+  try{
+        validateArgsAndSetupIntergration(sintest9);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+
+System.out.println("test 10 for testing sin, curve func,  with negative correct args with % 1");
+  try{
+        validateArgsAndSetupIntergration(sintest10);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+      }try{
+        if(function.equals("poly")){
+          poly(coeffs,upperB,lowerB,epsilon,2);
+        }
+        if(function.equals("sin")){
+          sin(upperB,lowerB,epsilon,2);
+        }
+      }catch(NumberFormatException nfe){
+        System.out.println("error found");
+      }
+System.out.println("====================================");
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
    public static void main( String arg[] ) {
         SkateRampArea myPSS = new SkateRampArea();
+        System.out.println(arg[0]);
+        if(arg[0].equals("runtests")){
+          System.out.println("got to here");
+          myPSS.runtests();
+
+          System.exit(0);
+        }
+        try{
         myPSS.validateArgsAndSetupIntergration(arg);
+      }catch (IllegalArgumentException iae){
+        System.out.println(iae.getMessage());
+        System.exit(0);
+      }
         if(myPSS.function.equals("poly")){
           myPSS.poly(myPSS.coeffs,myPSS.upperB,myPSS.lowerB,myPSS.epsilon,2);
         }
